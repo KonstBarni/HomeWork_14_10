@@ -2,17 +2,19 @@
 #include <string>
 #include "Trie.h"
 #include "Dictionary.h"
+#include "Functions.h"
 
 using namespace std;
 
 int main()
-{
-    string res;
-    char buf[100]{};
-    
+{   
+    bool isWork{true};
     TrieNode* dict = createDict();
-    findMinPrefixes(dict, buf, 0, res);
-    string serch = "he";
-    findPrefix(dict, serch);
+
+    while(isWork)
+    {
+        isWork = inputMess(dict);
+    }
+
     return 0;
 }

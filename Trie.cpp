@@ -53,7 +53,7 @@ bool search(struct TrieNode *root, string key)
 
    for (int i = 0; i < key.length(); i++)
    {
-       int index = key[i] - 'a';  //символ на кириллице
+       int index = key[i] - 'a';  
        if (!node->children[index])
            return false;
 
@@ -109,7 +109,7 @@ TrieNode* remove(TrieNode* root, string key, int depth = 0)
    return root;
 }
 
-
+//поиск префикса
 void findPrefix(TrieNode* root, string prefix)
 {
     if (root->isEndOfWord)
@@ -123,6 +123,7 @@ void findPrefix(TrieNode* root, string prefix)
         }
 }
 
+//поиск и вывод всех минимальных префиксов
 void findMinPrefixes(TrieNode* root, char buf[], int ind, string& res)
 {
     if (!root)
@@ -141,10 +142,31 @@ void findMinPrefixes(TrieNode* root, char buf[], int ind, string& res)
     {
         if (root->children[i] != nullptr)
         {        
-           buf[ind] = i + 'a';          //символ кириллицы
-
+           buf[ind] = i + 'a'; 
            findMinPrefixes(root->children[i], buf, ind+1, res);
            buf[ind] = '\0';
         }       
     }
+}
+
+//вывод всех слов для автозаплонения
+int printAutoFillWords(TrieNode* root, const string query)
+{
+    struct TrieNode* pNode = root;
+    for (int i = 0; i < query.length(); i++) 
+    {
+        int ind = i - 'a';
+        //если слово по префиксу не найдено
+        if (!pNode->children[ind])
+            return 0;
+ 
+        pNode = pNode->children[ind];
+    }
+    //если префикс является словом
+    if (isEmpty(pNode)) {
+        cout << query << endl;
+        return -1;
+    }
+    findPrefix(pNode, query);
+    return 1;
 }

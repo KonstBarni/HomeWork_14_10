@@ -20,3 +20,4 @@ TrieNode* remove(TrieNode* root, std::string key, int depth);
 //TrieNode* remove(TrieNode* root, std::string& key, int depth = 0);       //удаление значения
 void findMinPrefixes(TrieNode* root, char buf[], int ind, std::string& res);    //кротчайшие префиксы
 void findPrefix(TrieNode* root, std::string prefix);
+int printAutoFillWords(TrieNode* root, const std::string query);
