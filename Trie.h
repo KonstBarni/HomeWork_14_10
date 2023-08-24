@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 #define ALPHABET_SIZE 26
 
@@ -10,14 +11,12 @@ struct TrieNode         //префиксное дерево
     int count;
 };
 
-//char rus = 'а';                 //символ кириллицы
 //char* buf[100];                 //массив чаров для сохранения ключей
 TrieNode *getNewNode(void);                                 //создать дерево
 void insert(TrieNode* root, std::string key);               //вставка по ключу
 bool search(struct TrieNode *root, std::string key);        //поиск по ключу
 bool isEmpty(TrieNode* root);                               //проверка на пустоту
-TrieNode* remove(TrieNode* root, std::string key, int depth);
-//TrieNode* remove(TrieNode* root, std::string& key, int depth = 0);       //удаление значения
+TrieNode* remove(TrieNode* root, std::string key, int depth);       //удаление значения    
 void findMinPrefixes(TrieNode* root, char buf[], int ind, std::string& res);    //кротчайшие префиксы
-void findPrefix(TrieNode* root, std::string prefix);
-int printAutoFillWords(TrieNode* root, const std::string query);
+std::vector<std::string>& findPrefix(TrieNode* root, std::string prefix, std::vector<std::string>& vtr);
+int printAutoFillWords(TrieNode* root, std::string& prefx);

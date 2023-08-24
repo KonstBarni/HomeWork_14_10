@@ -14,12 +14,15 @@ TrieNode* createDict()
     insert(dict, "old");
     insert(dict, "wonderful");
     insert(dict, "when");
+    insert(dict, "world");
+    insert(dict, "word");
     insert(dict, "am");
     insert(dict, "anower");
     insert(dict, "my");
     insert(dict, "friend");
     insert(dict, "best");
-    insert(dict, "heve");
+    insert(dict, "have");
+    insert(dict, "has");
     insert(dict, "bonus");
 
     return dict;

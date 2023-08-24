@@ -1,10 +1,10 @@
 #include <string>
 #include <iostream>
+#include <vector>
 #include "Trie.h"
 
 using namespace std;
 
-//TrieNode* poc = getNewNode();
 // Возвращает новый узел с пустыми детьми
 TrieNode *getNewNode(void)
 {
@@ -43,7 +43,7 @@ void insert(TrieNode* root, string key)
         }
         pNode = pNode->children[index];
     }
-    root->isEndOfWord = true;
+    pNode->isEndOfWord = true;
 }
 
 // Возвращает true если ключ есть в дереве, иначе false
@@ -60,7 +60,7 @@ bool search(struct TrieNode *root, string key)
        node = node->children[index];
    }
 
-   return (node != nullptr && node->isEndOfWord);
+   return (node != nullptr);
 }
 
 // Возвращает true если root имеет лист, иначе false
@@ -109,20 +109,6 @@ TrieNode* remove(TrieNode* root, string key, int depth = 0)
    return root;
 }
 
-//поиск префикса
-void findPrefix(TrieNode* root, string prefix)
-{
-    if (root->isEndOfWord)
-        cout << prefix << endl;
- 
-    for (int i = 0; i < ALPHABET_SIZE; i++)
-        if (root->children[i]) 
-        {
-            char child = 'a' + i;
-            findPrefix(root->children[i], prefix + child);
-        }
-}
-
 //поиск и вывод всех минимальных префиксов
 void findMinPrefixes(TrieNode* root, char buf[], int ind, string& res)
 {
@@ -149,24 +135,54 @@ void findMinPrefixes(TrieNode* root, char buf[], int ind, string& res)
     }
 }
 
+//поиск слов по префиксу
+vector<string>& findPrefix(TrieNode* root, string prefix, vector<string>& vtr)
+{
+    char child;
+    if (root->isEndOfWord)
+    {
+        vtr.push_back(prefix);
+        return vtr;
+    }
+    
+    for (int i = 0; i < ALPHABET_SIZE; i++)
+    {
+        if (root->children[i]) 
+        {
+            child = i + 'a';
+            findPrefix(root->children[i], prefix + child, vtr);
+        }    
+    }
+    return vtr;
+}
 //вывод всех слов для автозаплонения
-int printAutoFillWords(TrieNode* root, const string query)
+int printAutoFillWords(TrieNode* root, string& prefx)
 {
     struct TrieNode* pNode = root;
-    for (int i = 0; i < query.length(); i++) 
+
+    for (char s : prefx) 
     {
-        int ind = i - 'a';
-        //если слово по префиксу не найдено
+        int ind = ((int) s) - (int)'a';
+ 
+        // no string in the Trie has this prefix
         if (!pNode->children[ind])
             return 0;
  
         pNode = pNode->children[ind];
     }
-    //если префикс является словом
-    if (isEmpty(pNode)) {
-        cout << query << endl;
+        //если префикс является словом
+    if (isEmpty(pNode)) 
+    {
+        cout << prefx << endl;
         return -1;
     }
-    findPrefix(pNode, query);
+
+    vector<string> vtr;
+    vector<string> fillWords = findPrefix(pNode, prefx, vtr);
+    for(int n = 0; n < fillWords.size(); n++)
+        cout << n << "." << fillWords[n] << " ";
+    
+    cout<<endl;
+        
     return 1;
 }
