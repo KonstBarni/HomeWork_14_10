@@ -28,10 +28,9 @@ bool inputMess(TrieNode* dict)
 {
     string message;     //  конечное сообщение
     string inpWord;     // вводимое слово
-    bool inpMessWork = true;
+    bool inpMessWork = true;    
 
-    cout << "Use only 'a -z' lower case symbols" << endl;
-    cout << "Enter the message (input '/' to quit, ore '*' to show available words)" << endl;
+    cout << "Use only 'a -z' lower case symbols (input '/' to quit, ore '*' to show available words)" << endl;
     cout << "to send a message use '!' '.' '?' symbols" <<endl;
 
     while(inpMessWork)      //пока вводится сообщение
@@ -41,6 +40,13 @@ bool inputMess(TrieNode* dict)
         inpWord.find('!') != string::npos || 
         inpWord.find('?') != string::npos)     //условие завершения ввода сообщения
         {
+            if(inpWord.size() > 1)
+            {
+                message += " ";
+                message += inpWord;
+                break;
+            }
+
             message += inpWord;
             inpMessWork = false;
             break;
@@ -49,32 +55,33 @@ bool inputMess(TrieNode* dict)
         if (!inpWord.empty()) 
             cout << message;
 
-        if (inpWord.find('/') != std::string::npos) 
+        if (inpWord.find('/') != std::string::npos)     // условие выхода
         {
             return false;
         }
 
-        if (inpWord.find('*') != std::string::npos) 
+        if (inpWord.find('*') != std::string::npos)     //  условие запуска вывода автозаполнения
         {
             inpWord.pop_back();
             cout << "Choose the right word and press the corresponding number" << endl;
         
-            int comp = printAutoFillWords(dict, inpWord);
+            int resOfFunc = printAutoFillWords(dict, inpWord);      //резельтат возврата функции
 
-            if (comp == -1) 
+            if (resOfFunc == -1)        //если других слов нет 
             {
                 cout << "No other strings found with this prefix" << endl;
                 message += inpWord;
                 inpWord.clear();
                 cout << message;
             }
-            else if (comp == 0) 
+            else if (resOfFunc == 0)    //если слово по префиксу не найдено 
             {
                 cout << "No string found with this prefix" << endl;
                 inpWord.clear();
                 cout << message;
             }
 
+        //формирование вектор аслов для выбора слова для автозаполнения
             TrieNode* pNode = dict;
             for (char s : inpWord) 
             {
