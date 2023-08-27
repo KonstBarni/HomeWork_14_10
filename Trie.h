@@ -18,5 +18,6 @@ bool search(struct TrieNode *root, std::string key);        //поиск по к
 bool isEmpty(TrieNode* root);                               //проверка на пустоту
 TrieNode* remove(TrieNode* root, std::string key, int depth);       //удаление значения    
 void findMinPrefixes(TrieNode* root, char buf[], int ind, std::string& res);    //кротчайшие префиксы
-std::vector<std::string>& findPrefix(TrieNode* root, std::string prefix, std::vector<std::string>& vtr);
-int printAutoFillWords(TrieNode* root, std::string& prefx);
+std::vector<std::string>& findWords(TrieNode* root, std::string prefix, std::vector<std::string>& vtr); //найти все слова по префиксу
+int printAutoFillWords(TrieNode* root, std::string& prefx);     //вывод всех слов по префиксу
+//std::vector<std::string>& getVector(std::vector<std::string>& vtr);

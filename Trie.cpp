@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Trie.h"
+#include "Functions.h"
 
 using namespace std;
 
@@ -136,7 +137,7 @@ void findMinPrefixes(TrieNode* root, char buf[], int ind, string& res)
 }
 
 //поиск слов по префиксу
-vector<string>& findPrefix(TrieNode* root, string prefix, vector<string>& vtr)
+vector<string>& findWords(TrieNode* root, string prefix, vector<string>& vtr)
 {
     char child;
     if (root->isEndOfWord)
@@ -150,7 +151,7 @@ vector<string>& findPrefix(TrieNode* root, string prefix, vector<string>& vtr)
         if (root->children[i]) 
         {
             child = i + 'a';
-            findPrefix(root->children[i], prefix + child, vtr);
+            findWords(root->children[i], prefix + child, vtr);
         }    
     }
     return vtr;
@@ -178,7 +179,7 @@ int printAutoFillWords(TrieNode* root, string& prefx)
     }
 
     vector<string> vtr;
-    vector<string> fillWords = findPrefix(pNode, prefx, vtr);
+    vector<string> fillWords = findWords(pNode, prefx, vtr);
     for(int n = 0; n < fillWords.size(); n++)
         cout << n << "." << fillWords[n] << " ";
     
