@@ -164,11 +164,8 @@ int printAutoFillWords(TrieNode* root, string& prefx)
     for (char s : prefx) 
     {
         int ind = ((int) s) - (int)'a';
- 
-        // no string in the Trie has this prefix
-        if (!pNode->children[ind])
+        if(!pNode->children[ind])
             return 0;
- 
         pNode = pNode->children[ind];
     }
         //если префикс является словом
